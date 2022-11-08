@@ -34,7 +34,8 @@ class DriverClass {
 class Solution {
     // Function to detect cycle in a directed graph.
     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
-        // code here
+        // dfs approch
+        /*
         boolean[]vis = new boolean[V];
         boolean[]pathVis = new boolean[V];
         for(int i=0; i<V; i++) {
@@ -44,6 +45,25 @@ class Solution {
             }
         }
         return false;
+        */
+        // Kahn's Algo. / Topological Sort
+        int[]indegree = new int[V];
+        for(int i=0; i<V; i++)
+            for(int vi:adj.get(i))
+                indegree[vi]++;
+        ArrayDeque<Integer> queue = new ArrayDeque<>();
+        for(int i=0; i<V; i++) 
+            if(indegree[i] == 0)
+                queue.offer(i);
+        List<Integer> topoSort = new ArrayList<>();
+        while(!queue.isEmpty()) {
+            int curn = queue.poll();
+            for(int vi:adj.get(curn))
+                if(--indegree[vi] == 0)
+                    queue.offer(vi);
+            topoSort.add(curn);
+        }
+        return topoSort.size() < V;
     }
     private boolean dfs(int v, ArrayList<ArrayList<Integer>> adj, boolean[]vis, boolean[]pathVis) {
         // if(adj.get(v).size() == 0) return false;
