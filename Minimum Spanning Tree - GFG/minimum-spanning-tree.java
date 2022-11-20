@@ -61,27 +61,18 @@ class Solution
         boolean[]visited = new boolean[V];
         PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> a[0] - b[0]);
         pq.offer(new int[]{0, 0, -1});
-        visited[0] = true;
         while(!pq.isEmpty()) {
             int[]cur = pq.poll();
             int wt = cur[0], cnode = cur[1], parentNode = cur[2];
             if(!visited[cnode]) {
                 visited[cnode] = true;
                 sum += wt;
-            }
-            // check if all are visited then break execution
-            if(allVisited(visited)) break;
-            
-            for(ArrayList<Integer> vi : adj.get(cnode)) {
-                if(!visited[vi.get(0)])
-                    pq.offer(new int[]{vi.get(1), vi.get(0), cnode});
-            }
+                for(ArrayList<Integer> vi : adj.get(cnode)) {
+                    if(!visited[vi.get(0)])
+                        pq.offer(new int[]{vi.get(1), vi.get(0), cnode});
+                }
+            } 
         }
         return sum;
-    }
-    private static boolean allVisited(boolean[]visited) {
-        for(boolean b : visited) 
-            if(!b) return false;
-        return true;
     }
 }
