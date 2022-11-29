@@ -27,10 +27,31 @@ class GFG {
 class Solution {
     //Function to find the length of longest common subsequence in two strings.
     static int lcs(int x, int y, String s1, String s2) {
-        int[][]cache = new int[x][y];
-        for(int[]ci:cache)
-            Arrays.fill(ci, -1);
-        return dp(s1.toCharArray(), s2.toCharArray(), 0, 0, cache);
+        // int[][]cache = new int[x][y];
+        // memoization
+        // for(int[]ci:cache)
+        //     Arrays.fill(ci, -1);
+        // return dp(s1.toCharArray(), s2.toCharArray(), 0, 0, cache);
+        
+        // tabulation code
+        int[][]cache = new int[x+1][y+1];
+        for(int idx1 = x-1; idx1>=0; idx1--) {
+            for(int idx2 = y-1; idx2>=0; idx2--) {
+                if(s1.charAt(idx1) == s2.charAt(idx2))
+                    cache[idx1][idx2] = 1 + cache[idx1+1][idx2+1];
+                else 
+                    cache[idx1][idx2] =  Math.max(cache[idx1+1][idx2], cache[idx1][idx2+1]);
+            }
+        }
+        int max = 0;
+        for(int[]cii:cache) {
+            for(int ci:cii) {
+                // System.out.print(ci);
+                max = Math.max(ci, max);
+            }
+            // System.out.println();
+        }
+        return max;
     }
     
     static int dp(char[]ch1, char[]ch2, int idx1, int idx2, int[][]cache) {
