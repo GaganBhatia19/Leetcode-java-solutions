@@ -1,6 +1,6 @@
 class Solution {
     public String frequencySort(String s) {
-        Map<Character, Integer> map = new TreeMap<>();
+        Map<Character, Integer> map = new HashMap<>();
         for(char c : s.toCharArray()) {
             if(map.containsKey(c)) {
                 int freq = map.get(c);
